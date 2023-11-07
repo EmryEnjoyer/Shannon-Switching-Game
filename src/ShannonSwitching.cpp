@@ -1,9 +1,9 @@
+#include "Graphs/Headers/AdjacencyLists.h"
+#include "Graphs/Headers/Graph.h"
+#include "Headers/GraphLexer.h"
 #include <iostream>
 #include <string>
 #include <cassert>
-#include "Graphs/Headers/Graph.h"
-#include "Graphs/Headers/AdjacencyLists.h"
-#include "Headers/GraphLexer.h"
 
 int main(int argc, char ** argv) 
 {

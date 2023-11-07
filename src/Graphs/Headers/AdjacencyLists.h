@@ -59,6 +59,11 @@ public:
         return edges;
     }
 };
+
+// ====================================================================
+// IMPLEMENTATION
+// ====================================================================
+
 template <typename V, typename E>
 bool AdjacencyLists<V, E>::ContainsVertex(V vert) 
 {
