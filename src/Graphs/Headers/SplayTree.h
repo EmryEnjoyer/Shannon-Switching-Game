@@ -81,9 +81,11 @@ Node<K,V> * splay (Node<K,V> * root, K key)
     }
     if(!keyNode)
         return root; // Did not find a value, set root as the new root.
-    while(keyNode->parent) {
+    while(keyNode->parent && (
+        keyNode->parent->left == keyNode
+        || keyNode->parent->right == keyNOde
+    )) 
         keyNode = rotateUp(keyNode);
-    }
     return keyNode;
 }
 
