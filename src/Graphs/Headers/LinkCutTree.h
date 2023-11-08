@@ -14,7 +14,8 @@ public:
     
     Node<int, V> * access(Node<int, V> * node);
 
-    Node<int, V> * getSplayNode(V node);
+    Node<int, V> * getSplayNode(V node)
+        return splayMap[node];
 };
 
 // ====================================================================
@@ -41,6 +42,23 @@ LinkCutTree<V>::LinkCutTree(TreeNode<V,int> * representedTree)
             splayMap[child->key]->parent = front;
         }
     }
+}
+
+template <typename V>
+Node<int, V> * LinkCutTree<V>::access(Node<int, V> * node)
+{
+    if(!node)
+        return node;
+    
+    splay(node);
+    node->right = nullptr;
+
+    Node<int, v> parent = node->parent;
+    if (parent) {
+        parent->right = node;
+        return access(node);
+    }
+    return node; // node is the root of a topmost splay tree in the Link Cut Tree.
 }
 
 #endif
