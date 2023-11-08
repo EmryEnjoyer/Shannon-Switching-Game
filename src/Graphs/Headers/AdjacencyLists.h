@@ -122,8 +122,8 @@ void AdjacencyLists<V, E>::AddEdge(V src, V dst, bool isProtected, E cost, int o
 template <typename V, typename E>
 std::pair<std::pair<V, V>, E> AdjacencyLists<V, E>::RemoveEdge(V src, V dst) 
 {
-    EdgeCost<E> edgeCost = this->edges[std::pair(src, dst)];
-    std::pair<V, V> edge = std::pair(src, dst);
+    EdgeCost<E> edgeCost = this->edges[std::pair<V,V>(src, dst)];
+    std::pair<V, V> edge = std::pair<V,V>(src, dst);
     this->edges[edge] = EdgeCost<E>{0,-1};
     std::list<V> * srcNeighbors = &(this->adjLists[src]);
     std::list<V> * dstNeighbors = &(this->adjLists[dst]);
@@ -166,7 +166,7 @@ void AdjacencyLists<V,E>::Print()
         for(auto neighbor : neighbors) 
         {
             if(edges[std::pair<V,V>(top,neighbor)].cost > 0) {
-                std::cout << top << "-" << neighbor << " " << this->edges[std::pair(top, neighbor)].cost << " ";
+                std::cout << top << "-" << neighbor << " " << this->edges[std::pair<V,V>(top, neighbor)].cost << " ";
                 if(visited.count(neighbor) == 0)
                     todo.push(neighbor);
             }
@@ -177,5 +177,5 @@ void AdjacencyLists<V,E>::Print()
 
 template <typename V, typename E>
 EdgeCost<E> AdjacencyLists<V,E>::GetEdge(V src, V dst) {
-    return this->edges[std::pair(src, dst)];
+    return this->edges[std::pair<V,V>(src, dst)];
 }
