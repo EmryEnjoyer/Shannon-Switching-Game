@@ -15,7 +15,9 @@ public:
     Node<int, V> * access(Node<int, V> * node);
 
     Node<int, V> * getSplayNode(V node)
+    {
         return splayMap[node];
+    }
     Node<int, V> * link(TreeNode<V,int> * v, TreeNode<V,int> * w);
     void cut(Node<int,V> * node);
 };
@@ -59,7 +61,7 @@ Node<int, V> * LinkCutTree<V>::access(Node<int, V> * node)
     splay(node);
     node->right = nullptr;
 
-    Node<int, v> parent = node->parent;
+    Node<int, V> parent = node->parent;
     if (parent) 
     {
         parent->right = node;

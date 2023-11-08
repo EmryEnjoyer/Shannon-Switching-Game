@@ -79,11 +79,9 @@ Node<K,V> * remove(Node<K,V> * root, K key);
 template <typename K, typename V>
 Node<K,V> * splay (Node<K,V> * keyNode)
 {
-    if(!keyNode)
-        return root; // Did not find a value, set root as the new root.
     while(keyNode->parent && (
         keyNode->parent->left == keyNode
-        || keyNode->parent->right == keyNOde
+        || keyNode->parent->right == keyNode
     )) 
         keyNode = rotateUp(keyNode);
     return keyNode;
@@ -101,6 +99,9 @@ Node<K,V> * splay (Node<K,V> * root, K key)
         else
             keyNode = keyNode->right;
     }
+
+    if(!keyNode)
+        return root;
     
     return splay(keyNode);
 }
