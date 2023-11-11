@@ -5,9 +5,20 @@
 #include <iostream>
 #include <string>
 #include <cassert>
+#include <vector>
 
 int main(int argc, char ** argv)
 {
+    TreeNode<int,int> root(1, 3);
+    TreeNode<int,int> a(2,3, &root);
+    TreeNode<int,int> b(3,3, &root);
+    TreeNode<int,int> c(5,17,&a);
+
+    std::vector<TreeNode<int,int> *> roots = std::vector<TreeNode<int,int> *>();
+    roots.push_back(&root);
+
+    LinkCutTree<int> lkt = LinkCutTree<int>(roots);
+    lkt.access(lkt.getSplayNode(c.key));
     
 }
 

@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cassert>
 /**
  * This file implements a splay tree according to the Wikipedia interace.
  * We use a functional implementation to reduce the state of Node.
@@ -120,7 +121,7 @@ Node<K,V> * rotateLeft(Node<K,V> * root)
     if(root->parent)
         if(root->parent->left == root)
             root->parent->left = pivot;
-        else
+        else if(root->parent->right == root)
             root->parent->right = pivot;
     
     root->right = newRight;
@@ -145,7 +146,7 @@ Node<K,V> * rotateRight(Node<K,V> * root)
     if(root->parent)
         if(root->parent->left == root)
             root->parent->left = pivot;
-        else
+        else if(root->parent->right == root)
             root->parent->right = pivot;
     
     root->left = newLeft;

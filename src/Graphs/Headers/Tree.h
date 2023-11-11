@@ -14,7 +14,7 @@ struct TreeNode
     TreeNode(K key, V value)
     {
         isRoot = true;
-        children = std::vector<V>();
+        children = std::vector<TreeNode<K,V>*>();
         this->key = key;
         this->value = value;
         depth = 0;

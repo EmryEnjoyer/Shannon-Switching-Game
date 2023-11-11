@@ -7,7 +7,6 @@
 #include <queue>
 template <typename V>
 class LinkCutTree {
-    Node<int, V> * root;
     std::map<V, Node<int, V> *> splayMap;
 public:
     LinkCutTree(std::vector<TreeNode<V,int> *> representedForestNode);
@@ -18,7 +17,7 @@ public:
     {
         return splayMap[node];
     }
-    Node<int, V> * link(TreeNode<V,int> * v, TreeNode<V,int> * w);
+    Node<int, V> * link(Node<int,V> * v, Node<int,V> * w);
     void cut(Node<int,V> * node);
 };
 
@@ -31,7 +30,7 @@ LinkCutTree<V>::LinkCutTree(std::vector<TreeNode<V,int> *> representedForest)
 {
     this->splayMap = std::map<V, Node<int, V> *>();
 
-    std::queue<TreeNode<V,int>*> todo = std::queue<TreeNode<V,int>>();
+    std::queue<TreeNode<V,int>*> todo = std::queue<TreeNode<V,int> *>();
     for(auto treeRoot : representedForest)
     {
         todo.push(treeRoot);
@@ -47,7 +46,7 @@ LinkCutTree<V>::LinkCutTree(std::vector<TreeNode<V,int> *> representedForest)
         {
             todo.push(child);
             splayMap[child->key] = new Node<int,V>(child->depth, child->key);
-            splayMap[child->key]->parent = front;
+            splayMap[child->key]->parent = splayMap[front->key];
         }
     }
 }
@@ -61,7 +60,7 @@ Node<int, V> * LinkCutTree<V>::access(Node<int, V> * node)
     splay(node);
     node->right = nullptr;
 
-    Node<int, V> parent = node->parent;
+    Node<int, V> * parent = node->parent;
     if (parent) 
     {
         parent->right = node;
@@ -71,23 +70,16 @@ Node<int, V> * LinkCutTree<V>::access(Node<int, V> * node)
 }
 
 template<typename V>
-Node<int, V> * LinkCutTree<V>::link(TreeNode<V,int> * v, TreeNode<V,int> * w)
+Node<int, V> * LinkCutTree<V>::link(Node<int,V> * v, Node<int,V> * w)
 {
-    assert(w.isRoot);
 
-    Node<int, V> * vSplay = splayMap[v->key];
-    Node<int, V> * wSplay = splayMap[v->key];
+    v = access(v); // assignment technically not necessary
+    w = access(w);
 
-    assert(vSplay);
-    assert(wSplay);
+    v->right = w;
+    w->parent = v;
 
-    vSplay = access(vSplay); // assignment technically not necessary
-    wSplay = access(wSplay);
-
-    vSplay->right = wSplay;
-    wSplay->parent = vSplay;
-
-    return vSplay;
+    return v;
 }
 
 template<typename V>
