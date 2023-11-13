@@ -168,12 +168,16 @@ public:
     {
         for(auto pair : flows)
         {
-            std::cout << pair.first.first << " -> " 
-                      << pair.first.second 
-                      << " [label=\"" 
-                      << pair.second 
-                      << "\"]\n";
+            if(pair.second > 0)
+                std::cout << pair.first.first << " -> " 
+                        << pair.first.second 
+                        << " [label=\"" 
+                        << pair.second 
+                        << "\"]\n";
         }
     }
+
+    std::map<std::pair<V,V>, int> getFlows() {return flows;}
+
 };
 #endif

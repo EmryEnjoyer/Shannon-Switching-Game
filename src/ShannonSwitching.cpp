@@ -35,36 +35,39 @@ int main(int argc, char ** argv)
     //     return 0;
     // }
     // std::string mode = argv[1];
-    
+    // 
     // assert(mode == "short" || mode == "cut");
 
-    AdjacencyLists<int,int> graph = AdjacencyLists<int,int>(true, true);
+    AdjacencyLists<int,int> graph = AdjacencyLists<int,int>(false, true);
 
     GraphLexer<int,int> lexer = GraphLexer<int,int>(graph);
 
     std::cin >> lexer;
-
-    Network<int> net = Network<int>(&graph, 1, 5);
-
-    auto level = net.getLevelGraph();
-
-    net.buildMaxFlow();
-
-    net.printFlows();
-
-    std::cout << std::endl;
-    
-    // std::pair<int,int> leastEdge(0,0); // <cost,order>
-    // for(auto edge : graph.getEdges()) 
-    // {
-    //     if( !edge.second.isProtected
-    //         && (leastEdge.first == 0 
-    //         || (edge.second.cost > 0 
-    //             && edge.second.cost < leastEdge.first))) 
-    //     {
-    //         leastEdge.first = edge.second.cost;
-    //         leastEdge.second = edge.second.order;
-    //     }
-    // }
-    // std::cout << "Selected Edge: " << leastEdge.second << " Cost: " << leastEdge.first << "\n";
+    std::map<std::pair<int,int>, int> edgeOccurrences;
+    std::pair<std::pair<int,int>,int> maxOccurrence(std::pair(-1,-1),-1);
+    for(auto src : graph.GetVertices())
+    {
+        for(auto dst : graph.GetVertices())
+        {
+            if(src == dst)
+                continue;
+            Network<int> net = Network<int>(&graph, src, dst);
+            net.buildMaxFlow();
+            for(auto flowEdge : net.getFlows()) // flowEdge is a pair containing an edge and a flow
+            {
+                if(flowEdge.second <= 0 
+                    || graph.GetEdge(flowEdge.first.first, flowEdge.first.second).isProtected)
+                    continue;
+                edgeOccurrences[flowEdge.first] = (!edgeOccurrences[flowEdge.first]) ? 1 : edgeOccurrences[flowEdge.first] + 1;
+                if(edgeOccurrences[flowEdge.first] > maxOccurrence.second)
+                    maxOccurrence = flowEdge;
+            }
+        }
+    }
+    if(maxOccurrence.second == -1)
+    {
+        std::cout << "Could not find an edge!" << std::endl;
+        return 0;
+    }
+    std::cout << lexer.getEdgeIndex(maxOccurrence.first.first, maxOccurrence.first.second);
 }

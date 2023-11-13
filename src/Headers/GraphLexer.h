@@ -8,6 +8,7 @@ class GraphLexer {
  * This class acts as a wrapper around a graph to make reading in graphs easy.
 */
     Graph<V,E> * graph;
+    std::map<std::pair<V,V>,int> edgeIndices;
 
 public:
     GraphLexer(Graph<V,E> & graph) 
@@ -25,6 +26,15 @@ public:
             graph->AddEdge(src, dst, isProtected, cost);
     }
 
+    int getEdgeIndex(V src, V dst)
+    {
+        return edgeIndices[std::pair(src,dst)];
+    }
+
+    void setEdgeIndex(std::pair<V,V> edge, int index)
+    {
+        edgeIndices[edge] = index;
+    }
 };
 
 template<typename V, typename E>
@@ -47,6 +57,7 @@ std::istream & operator>>(std::istream & in, GraphLexer<V,E> & lexer)
         V src, dst;
         E cost;
         in >> src >> dst >> cost;
+        lexer.setEdgeIndex(std::pair(src, dst), i);
         lexer.HandleEdge(src, dst, cost, false);
     }
     return in;
