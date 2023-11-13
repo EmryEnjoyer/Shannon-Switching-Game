@@ -30,6 +30,7 @@ struct Node {
         this->value = value;
         left = nullptr;
         right = nullptr;
+        parent = nullptr;
     }
     
 };

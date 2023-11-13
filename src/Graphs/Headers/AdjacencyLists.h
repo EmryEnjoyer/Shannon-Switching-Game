@@ -51,7 +51,7 @@ public:
     /**
      * Prints the AdjacencyLists out in depth first order from the first entry in Vertices
     */
-    void Print();
+    // void Print();
 
     EdgeCost<E> GetEdge(V src, V dst);
 
@@ -114,9 +114,9 @@ void AdjacencyLists<V, E>::AddEdge(V src, V dst, bool isProtected, E cost, int o
     this->edges[std::pair<V,V>(src, dst)] = edgeCost;
     if(!(this->isDirected)) {
         this->edges[std::pair<V,V>(dst, src)] = edgeCost;
+        (this->adjLists[dst]).push_back(src);
     }
     (this->adjLists[src]).push_back(dst);
-    (this->adjLists[dst]).push_back(src);
 }
 
 template <typename V, typename E>
@@ -144,36 +144,36 @@ std::vector<V> AdjacencyLists<V, E>::GetVertices()
     return this->vertices;
 }
 
-template<typename V, typename E>
-void AdjacencyLists<V,E>::Print() 
-{
-    V start = this->vertices[0];
-
-    std::set<V> visited = std::set<V>();
-    std::queue<V> todo = std::queue<V>();
-    todo.push(start);
-    
-    while(!(todo.empty()))
-    {
-
-        V top = todo.front();
-        todo.pop();
-        if(visited.count(top) != 0)
-            continue;
-        visited.insert(top);
-        std::cout << top << ": ";
-        std::list<V> neighbors = GetNeighbors(top);
-        for(auto neighbor : neighbors) 
-        {
-            if(edges[std::pair<V,V>(top,neighbor)].cost > 0) {
-                std::cout << top << "-" << neighbor << " " << this->edges[std::pair<V,V>(top, neighbor)].cost << " ";
-                if(visited.count(neighbor) == 0)
-                    todo.push(neighbor);
-            }
-        }
-        std::cout << "\n";
-    }
-}
+// template<typename V, typename E>
+// void AdjacencyLists<V,E>::Print() 
+// {
+//     V start = this->vertices[0];
+// 
+//     std::set<V> visited = std::set<V>();
+//     std::queue<V> todo = std::queue<V>();
+//     todo.push(start);
+//     
+//     while(!(todo.empty()))
+//     {
+// 
+//         V top = todo.front();
+//         todo.pop();
+//         if(visited.count(top) != 0)
+//             continue;
+//         visited.insert(top);
+//         std::cout << top << ": ";
+//         std::list<V> neighbors = GetNeighbors(top);
+//         for(auto neighbor : neighbors) 
+//         {
+//             if(edges[std::pair<V,V>(top,neighbor)].cost > 0) {
+//                 std::cout << top << "-" << neighbor << " " << this->edges[std::pair<V,V>(top, neighbor)].cost << " ";
+//                 if(visited.count(neighbor) == 0)
+//                     todo.push(neighbor);
+//             }
+//         }
+//         std::cout << "\n";
+//     }
+// }
 
 template <typename V, typename E>
 EdgeCost<E> AdjacencyLists<V,E>::GetEdge(V src, V dst) {

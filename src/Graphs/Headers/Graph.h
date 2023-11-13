@@ -40,7 +40,7 @@ struct Edge {
 
 template<typename V, typename E>
 class Graph {
-public:
+public:    
     virtual void AddVertex(V vert) = 0;
 
     virtual void AddEdge(V src, V dst, bool isProtected, E cost=1, int order=-1) = 0;
@@ -53,7 +53,7 @@ public:
 
     virtual bool ContainsVertex(V vert) = 0;
 
-    virtual void Print() = 0;
+    // virtual void Print() = 0;
 
     virtual EdgeCost<E> GetEdge(V src, V dst) = 0;
 
