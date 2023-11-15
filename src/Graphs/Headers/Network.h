@@ -27,7 +27,6 @@ public:
         source = src;
         destination = dst;
 
-        bool haveFoundDestination = false;
         std::queue<V> todo = std::queue<V>();
         todo.push(src);
         while(!todo.empty())
@@ -140,7 +139,7 @@ public:
             {
                 int bottleneckValue = -1;
                 std::stack<std::pair<V,V>> pathCuts;
-                for(int i = 0; i < path.size() - 1; ++i)
+                for(int i = 0; i < (int) (path.size() - 1); ++i)
                 {
                     std::pair<V,V> edge = std::pair(path[i+1],path[i]);
                     if(bottleneckValue < 0 || residualCapacities[edge] < bottleneckValue)

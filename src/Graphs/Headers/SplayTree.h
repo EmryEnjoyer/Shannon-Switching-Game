@@ -120,11 +120,12 @@ Node<K,V> * rotateLeft(Node<K,V> * root)
 
     pivot->parent = root->parent;
     if(root->parent)
+    {
         if(root->parent->left == root)
             root->parent->left = pivot;
         else if(root->parent->right == root)
             root->parent->right = pivot;
-    
+    }
     root->right = newRight;
     if(root->right) // If newRight points to a valid node...
         root->right->parent = root;
@@ -145,11 +146,12 @@ Node<K,V> * rotateRight(Node<K,V> * root)
 
     pivot->parent = root->parent;
     if(root->parent)
+    {
         if(root->parent->left == root)
             root->parent->left = pivot;
         else if(root->parent->right == root)
             root->parent->right = pivot;
-    
+    }
     root->left = newLeft;
     if(root->left) // If newLeft points to a valid node...
         root->left->parent = root;
