@@ -40,9 +40,9 @@ public:
 template<typename V, typename E>
 std::istream & operator>>(std::istream & in, GraphLexer<V,E> & lexer) 
 {
-    int numProtectedEdges, numUnprotectedEdges;
+    int trash, numProtectedEdges, numUnprotectedEdges;
 
-    in >> numProtectedEdges;
+    in >> trash >> numProtectedEdges;
     for(int i = 0; i < numProtectedEdges; ++i) 
     {
         V src, dst;
