@@ -7,7 +7,8 @@
 #include <string>
 #include <cassert>
 #include <vector>
-#define INFINITY 1000000000
+
+#define INFINITY 1000000
 
 // int main(int argc, char ** argv)
 // {
@@ -75,8 +76,7 @@ int main(int argc, char ** argv)
     GraphLexer<int,int> lexer = GraphLexer<int,int>(graph);
 
     std::cin >> lexer;
-
-    std::map<std::pair<int,int>, float> edgeOccurrences;
+    std::map<std::pair<int,int>, int> edgeOccurrences;
     std::pair<std::pair<int,int>,int> maxOccurrence(std::pair(-1,-1),-1);
     std::set<std::pair<int,int>> visited;
     for(auto src : graph.GetVertices())
@@ -96,19 +96,26 @@ int main(int argc, char ** argv)
                 if(flowEdge.second <= 0 
                     || graph.GetEdge(flowEdge.first.first, flowEdge.first.second).isProtected)
                     continue;
-                float increment = flowEdge.second;
-                edgeOccurrences[flowEdge.first] = (!edgeOccurrences[flowEdge.first]) ? increment 
-                    : edgeOccurrences[flowEdge.first] + increment;
-                if(edgeOccurrences[flowEdge.first] < maxOccurrence.second || maxOccurrence.second == -1 )
-                    maxOccurrence = flowEdge;
+                edgeOccurrences[flowEdge.first] = (!edgeOccurrences[flowEdge.first]) ? 1 : edgeOccurrences[flowEdge.first] + 1;
+                if(edgeOccurrences[flowEdge.first] > maxOccurrence.second)
+                    maxOccurrence = std::pair(flowEdge.first, edgeOccurrences[flowEdge.first]);
             }
         }
     }
+
+    for(auto occurrenceData : edgeOccurrences)
+    {
+        if(occurrenceData.second == maxOccurrence.second
+            && graph.GetEdge(occurrenceData.first.first, occurrenceData.first.second).cost < graph.GetEdge(maxOccurrence.first.first, maxOccurrence.first.second).cost)
+            maxOccurrence = occurrenceData;
+    }
+
+    std::cout << "cost: " << score(&graph) << std::endl;
+
     if(maxOccurrence.second == -1)
     {
         std::cout << "Could not find an edge!" << std::endl;
         return 0;
     }
-    std::cout << lexer.getEdgeIndex(maxOccurrence.first.first, maxOccurrence.first.second) << "\n";
-    // std::cout << "score: " << score(&graph) << "\n";
+    std::cout << lexer.getEdgeIndex(maxOccurrence.first.first, maxOccurrence.first.second);
 }

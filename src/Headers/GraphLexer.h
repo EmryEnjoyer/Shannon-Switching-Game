@@ -28,12 +28,14 @@ public:
 
     int getEdgeIndex(V src, V dst)
     {
+        std::cout << "source: " << src << " destination: " << dst << std::endl;
         return edgeIndices[std::pair(src,dst)];
     }
 
     void setEdgeIndex(std::pair<V,V> edge, int index)
     {
         edgeIndices[edge] = index;
+        edgeIndices[std::pair(edge.second, edge.first)] = index;
     }
 };
 
