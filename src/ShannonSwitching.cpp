@@ -30,7 +30,7 @@ int score(Graph<int,int> * graph)
     std::vector<int> verts = graph->GetVertices();
     int numVerts = verts.size();
 
-    int dist[numVerts][numVerts];
+    long int dist[numVerts][numVerts];
     for(int i = 0; i < numVerts; ++i)
         for(int j = 0; j < numVerts; j++)
         {
@@ -93,7 +93,7 @@ int main(int argc, char ** argv)
             net.buildMaxFlow();
             for(auto flowEdge : net.getFlows()) // flowEdge is a pair containing an edge and a flow
             {
-                if(flowEdge.second <= 0 
+                if(flowEdge.second == 0 
                     || graph.GetEdge(flowEdge.first.first, flowEdge.first.second).isProtected)
                     continue;
                 edgeOccurrences[flowEdge.first] = (!edgeOccurrences[flowEdge.first]) ? 1 : edgeOccurrences[flowEdge.first] + 1;
@@ -110,11 +110,21 @@ int main(int argc, char ** argv)
             maxOccurrence = occurrenceData;
     }
 
-    std::cout << "cost: " << score(&graph) << std::endl;
+    // std::cout << "cost: " << score(&graph) << std::endl;
 
     if(maxOccurrence.second == -1)
     {
-        std::cout << "Could not find an edge!" << std::endl;
+        std::pair<std::pair<int,int>, EdgeCost<int>> minEdge = std::pair(std::pair(0,0), EdgeCost(0,0,true));
+        for(auto edge : graph.getEdges())
+        {
+            if(!edge.second.isProtected 
+                && (minEdge.second.isProtected 
+                    || edge.second.cost < minEdge.second.cost))
+            {
+                minEdge = edge;
+            }
+        }
+        std::cout << lexer.getEdgeIndex(minEdge.first.first, minEdge.first.second) << std::endl;
         return 0;
     }
     std::cout << lexer.getEdgeIndex(maxOccurrence.first.first, maxOccurrence.first.second);

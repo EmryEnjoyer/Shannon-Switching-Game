@@ -11,6 +11,13 @@ struct EdgeCost {
     E cost;
     int order;
     bool isProtected;
+    EdgeCost() {};
+    EdgeCost(E _cost, int _order, bool _isProtected)
+    {
+        cost = _cost;
+        order = _order;
+        isProtected = _isProtected;
+    }
 };
 
 template <typename V, typename E>

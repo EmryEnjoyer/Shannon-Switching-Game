@@ -35,7 +35,7 @@ public:
             todo.pop();
             for(auto neighbor : underlyingGraph->GetNeighbors(front))
             {
-                if(!residualCapacities[std::pair(front, neighbor)])
+                if(!residualCapacities[std::pair(front, neighbor)] && !residualCapacities[std::pair(neighbor,front)])
                 {
                     todo.push(neighbor);
 

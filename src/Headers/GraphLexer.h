@@ -28,7 +28,7 @@ public:
 
     int getEdgeIndex(V src, V dst)
     {
-        std::cout << "source: " << src << " destination: " << dst << std::endl;
+        // std::cout << "source: " << src << " destination: " << dst << std::endl;
         return edgeIndices[std::pair(src,dst)];
     }
 
